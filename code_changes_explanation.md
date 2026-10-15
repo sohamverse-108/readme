@@ -220,10 +220,28 @@ This document details every single code modification made across the repository,
 
 ---
 
-## 3. Verification & Compliance Checklist
+## 3. Comprehensive Audit of Core & Main Application Files
+
+To ensure that the website remains completely consistent, stable, and unified across the entire application, all foundational and global files were rigorously checked. Here is the exact status and architectural rationale for each core file:
+
+| Core / Main File | Path | Status | What Changed & Architectural Rationale |
+| :--- | :--- | :--- | :--- |
+| **Global Theme Tokens** | [`src/theme/colors.css`](file:///Users/sohamchaudhari/Downloads/Wanderersat50--001/src/theme/colors.css) | **UNMODIFIED** (0 lines changed) | **Preserved 100% untouched.** No new CSS variables, overrides, or color tokens were introduced. All new and refactored sections reuse existing semantic tokens (`bg-surface-base`, `bg-surface-raised`, `bg-surface-muted`, `border-line-soft`, `text-ink-primary`, `text-ink-secondary`, `text-secondary-600`, etc.). |
+| **Global Stylesheet** | [`src/app/globals.css`](file:///Users/sohamchaudhari/Downloads/Wanderersat50--001/src/app/globals.css) | **UNMODIFIED** (0 lines changed) | **Preserved 100% untouched.** No global CSS rules, animation overrides, or page-local utility hacks were added. Preserves consistent rendering across all pages. |
+| **Data Access Services** | [`src/services/indianization.service.ts`](file:///Users/sohamchaudhari/Downloads/Wanderersat50--001/src/services/indianization.service.ts) | **UNMODIFIED** (0 lines changed) | **Preserved 100% untouched.** The service dynamically loads content from domain JSON registries (`destinations-metadata.json` and `destinations/[slug].json`). Because the service design is decoupled from specific destination logic, adding Batuan Temple required zero edits to the service code. |
+| **Other Domain Services** | `src/services/*.service.ts` | **UNMODIFIED** (0 lines changed) | All other services (e.g. `gallery.service.ts`, `navigation.service.ts`, etc.) remain completely untouched. |
+| **Global Root Layout** | [`src/app/layout.tsx`](file:///Users/sohamchaudhari/Downloads/Wanderersat50--001/src/app/layout.tsx) | **UNMODIFIED** (0 lines changed) | **Preserved 100% untouched.** The global application shell (Header, Navigation bar, Footer, Structured Data mount, Skip-to-content accessibility link, and Theme providers) remains completely identical across all pages. |
+| **Dynamic App Router Route** | [`src/app/indianization-of-south-and-southeast-asia/[...segments]/page.tsx`](file:///Users/sohamchaudhari/Downloads/Wanderersat50--001/src/app/indianization-of-south-and-southeast-asia/%5B...segments%5D/page.tsx) | **UNMODIFIED** (0 lines changed) | **Preserved 100% untouched.** Next.js App Router dynamic route handler automatically resolves all 92 routes via `indianizationService.getStaticRouteSegments()`, eliminating the need to edit route entry points. |
+| **Centralized Route Constants** | [`src/constants/routes.ts`](file:///Users/sohamchaudhari/Downloads/Wanderersat50--001/src/constants/routes.ts) | **MODIFIED** (1 line added) | **Added 1 constant**: `INDONESIA_BATUAN_TEMPLE: "/indianization-of-south-and-southeast-asia/indonesia/batuan-temple"`.<br/>*Why needed*: Per `AGENTS.md`, magic route strings outside `routes.ts` are strictly prohibited. Adding the canonical route to `ROUTES` ensures reliable navigation, breadcrumbs, and cross-linking with zero dead links. |
+| **Next.js & Build Config** | `next.config.ts`, `postcss.config.mjs`, `tsconfig.json` | **UNMODIFIED** (0 lines changed) | Build configurations, compiler flags, and asset pipelines were preserved without modification. |
+
+---
+
+## 4. Verification & Compliance Checklist
 
 - [x] **TypeScript compilation**: `npm run typecheck` passed with 0 errors.
 - [x] **Linting**: `npx eslint` passed with 0 warnings.
 - [x] **Production Build**: `npm run build` generated all 92 static routes cleanly.
 - [x] **Design Tokens**: All layouts adhere strictly to `src/theme/colors.css` and existing Tailwind utilities.
+- [x] **Core File Isolation**: Zero unapproved modifications to services, global CSS, root layouts, or build configs.
 - [x] **Mobile Responsiveness**: Verified across mobile, tablet, and desktop viewports.
